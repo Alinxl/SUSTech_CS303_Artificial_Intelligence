@@ -36,20 +36,21 @@ with open(SEED_SET_PATH, 'r') as f:
     lines = f.readlines()
     seed = set()
     for l in lines:
-        seed.add(int(l))
+        seed.add(int(l)-1)
     INFO['seed'] = seed
 
 count = 0
+k = 10000
 if DIFFUSION_MODEL == 'IC':
-    for i in range(10000):
+    for i in range(k):
         count += IC.IC(graph, INFO['seed'])
 elif DIFFUSION_MODEL == 'LT':
-    for i in range(10000):
+    for i in range(k):
         count += LT.LT(graph, INFO['seed'])
 else:
     print("Diffusion model, can only be IC or LT.")
     exit(0)
-print(count/10000)
+print(count/k)
 
 
 run_time = int((time.time()-start)*1000)/1000
