@@ -18,7 +18,8 @@ def IC(graph, seed):
         for node in activity:
             neighbors = np.nonzero(graph[node])[0]
             for i in neighbors:
-                if graph[node,i] > random.random() and i not in activated:
+                if graph[node,i] > random.random()\
+                   and i not in activated:
                     activated.add(i)
                     new_activity.add(i)
         activity = new_activity.copy()

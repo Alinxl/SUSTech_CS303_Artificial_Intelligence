@@ -2,8 +2,8 @@ import argparse
 import time
 import numpy as np
 import random
-from submodule import IC
-from submodule import LT
+import sys
+from submodule import IC, LT, utils
 
 start = time.time()
 
@@ -39,19 +39,6 @@ with open(SEED_SET_PATH, 'r') as f:
         seed.add(int(l)-1)
     INFO['seed'] = seed
 
-count = 0
-k = 10000
-if DIFFUSION_MODEL == 'IC':
-    for i in range(k):
-        count += IC.IC(graph, INFO['seed'])
-elif DIFFUSION_MODEL == 'LT':
-    for i in range(k):
-        count += LT.LT(graph, INFO['seed'])
-else:
-    print("Diffusion model, can only be IC or LT.")
-    exit(0)
-print(count/k)
+DIFFUSION_MODEL = utils.model_adapter(DIFFUSION_MODEL)
+print(utils.count(graph, seed, min(int(500000/INFO['node']),1000), DIFFUSION_MODEL))
 
-
-run_time = int((time.time()-start)*1000)/1000
-print("Time:", run_time)
